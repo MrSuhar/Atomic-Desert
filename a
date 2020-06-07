@@ -1,0 +1,4 @@
+rm ./atomic_desert
+g++ main.cpp header.hpp characters.cpp -o atomic_desert -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio 
+./atomic_desert
+
