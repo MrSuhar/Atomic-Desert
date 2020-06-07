@@ -6,4 +6,5 @@ We are aiming to make it cross platform Linux/Windows however it's not decided y
 ---FILE DESCRIPTION---
 
 ./a is a simple bash script used for compilation.
+
 ./atomic_desert is "Linux executable". 
