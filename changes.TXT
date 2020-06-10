@@ -1,5 +1,0 @@
-- RES_Y and RES_X are now defined in the header as preprocessor constant
-- Main loop moved to while(screen.isOpen())
-- Added clock and stable FPS
-- Added movement methods for Character class
-- Choppy movement implemented
