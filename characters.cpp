@@ -81,5 +81,68 @@ public:
 		vy = 0;
 		acc = 1;
 		max_spd = 5;
-	}	
+	}
+
+	Character()
+	{}	
+};
+
+class Inventory
+{
+protected:
+	sf::RectangleShape backpack_background;
+	bool opened=false;
+	//CURRENT EMPTY ITEM SPACE
+	int item_x=0,item_y=0;
+	//USED FOR DISPLAYING	
+	Character items[4][4];	
+
+public:
+	//CONSTRUCTOR
+	Inventory()
+	{			
+	backpack_background.setSize(sf::Vector2f(320,240));
+	backpack_background.setPosition(RES_X/5,RES_Y/5);
+	backpack_background.setFillColor(sf::Color::Cyan);
+	}
+	
+	//DISPLAYING INVENTORY AND ITS CONTENTS
+	void disp_eq(sf::RenderWindow *screen)
+	{	
+		if(opened)
+		{
+		screen->draw(backpack_background);
+			for(int i=0;i<4;i++)//i<item_x;i++)
+			{
+				for(int j=0;j<4;j++)
+				{
+					screen->draw(items[i][j].get_shape());
+				}
+				
+			} //work in progress
+		}		
+	}
+	//OPENING INVENTORY AND CLOSING INVENTIORY
+	void set_open(bool setter){opened=setter;}
+	bool get_open(){return opened;}
+		
+	//ADDING ITEM TO EQUIPEMENT work in progress
+	
+	void add_item(Character item)
+	{
+		if(item_y<=3)
+		{
+			items[item_x][item_y]=item;
+			items[item_x][item_y].set_position(item_x*80+RES_X/5,item_y*60+RES_Y/5);
+			item_x++; 
+			if(item_x>=4)
+				{
+					item_x=0;
+					item_y++;
+				}	
+			//item.set_position(item_x*80+RES_X/5,item_y*60+RES_Y/5);
+		}
+	};
+	
+
 };

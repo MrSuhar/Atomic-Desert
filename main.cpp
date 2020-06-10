@@ -1,6 +1,6 @@
 #include "header.hpp"
 #include "characters.cpp"
-#define VERSION "Atomic Desert ver_0.01 First Hero Appears!"
+#define VERSION "Atomic Desert ver_0.02 EQUIPEMENT DISPALY"
 
 
 int main()
@@ -19,8 +19,15 @@ int main()
 
 	//CREATING CHARACTER OBJECT
 	Character Player_1(100, 100, "./Textures/Player.png");
+	
 	Player_1.set_texture();
 	Player_1.set_position();
+
+	//CREATING INVENTORY OBJECT as for now it only displays objects
+	Inventory Equipement_1;
+	for(int i=1;i<3;i++)Equipement_1.add_item(Player_1); //filling inventory with random stuff
+	
+
 
 	//MAIN LOOP
 	while(screen.isOpen())
@@ -39,6 +46,13 @@ int main()
 				{ 
 					case sf::Keyboard::Escape:
 						screen.close();
+					break;					
+					case sf::Keyboard::I: //opening and closing EQ
+						if(Equipement_1.get_open())
+						{
+							Equipement_1.set_open(false);
+						}
+						else Equipement_1.set_open(true);
 					break;
 				}
 			}
@@ -66,6 +80,8 @@ int main()
 
 		screen.clear(sf::Color::Yellow);
 		screen.draw(Player_1.get_shape());
+		Equipement_1.disp_eq(&screen);
+		//screen.draw()
 		screen.display();
 
 		//CONTROLING FPS
