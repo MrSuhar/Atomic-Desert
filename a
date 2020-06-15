@@ -1,5 +1,7 @@
 #Compilation script for Linux
 rm ./atomic_desert
-g++ main.cpp header.hpp characters.cpp -o atomic_desert -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio 
+clear
+g++ main.cpp header.hpp 2d_item.cpp characters.cpp -o atomic_desert -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio 
+chmod u+x ./atomic_desert
 ./atomic_desert
 

@@ -1,5 +1,6 @@
 #include "header.hpp"
 #include "characters.cpp"
+
 #define VERSION "Atomic Desert ver_0.02 EQUIPEMENT DISPALY"
 
 
@@ -18,14 +19,17 @@ int main()
 	sf::Event event;
 
 	//CREATING CHARACTER OBJECT
-	Character Player_1(100, 100, "./Textures/Player.png");
-	
+	Character Player_1(100, 100, "./Textures/Player.png");	
 	Player_1.set_texture();
 	Player_1.set_position();
 
-	//CREATING INVENTORY OBJECT as for now it only displays objects
+	//DEBUG, USE 50x50 pixel pictures for items
+	Square_2D painkiller(50,50,"./Textures/painkiller.jpg");
+	painkiller.set_texture();
+
+	//CREATING INVENTORY OBJECT as for now it only displays objects "2D_square"
 	Inventory Equipement_1;
-	for(int i=1;i<3;i++)Equipement_1.add_item(Player_1); //filling inventory with random stuff
+	for(int i=1;i<16;i++)Equipement_1.add_item(painkiller); //filling inventory with random stuff
 	
 
 

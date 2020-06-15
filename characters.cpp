@@ -1,5 +1,5 @@
 #include "header.hpp"
-
+#include "2d_item.cpp"
 class Character
 {
 protected:
@@ -95,7 +95,7 @@ protected:
 	//CURRENT EMPTY ITEM SPACE
 	int item_x=0,item_y=0;
 	//USED FOR DISPLAYING	
-	Character items[4][4];	
+	Square_2D items[4][4];	
 
 public:
 	//CONSTRUCTOR
@@ -117,8 +117,7 @@ public:
 				for(int j=0;j<4;j++)
 				{
 					screen->draw(items[i][j].get_shape());
-				}
-				
+				}				
 			} //work in progress
 		}		
 	}
@@ -128,12 +127,12 @@ public:
 		
 	//ADDING ITEM TO EQUIPEMENT work in progress
 	
-	void add_item(Character item)
+	void add_item(Square_2D item)
 	{
 		if(item_y<=3)
 		{
 			items[item_x][item_y]=item;
-			items[item_x][item_y].set_position(item_x*80+RES_X/5,item_y*60+RES_Y/5);
+			items[item_x][item_y].set_position(item_x*80+RES_X/5+15,item_y*60+RES_Y/5+5);
 			item_x++; 
 			if(item_x>=4)
 				{
