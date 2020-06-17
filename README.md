@@ -1,7 +1,7 @@
 # Atomic-Desert
 
 A work in progress postapocalyptic game. Written by two students in free time. It uses C++ with SFML.
-We are aiming to make it cross platform Linux/Windows however it's not decided yet.
+We are aiming to make it cross platform Linux/Windows since one of us uses Linux Mint, and another one Windows 10.
 
 ---FILE DESCRIPTION---
 
