@@ -72,6 +72,7 @@ int main()
 						}
 						else Equipement_1.set_open(true);
 					break;
+
 				}
 			}
 			//HANDING MOUSE CLICKS
@@ -88,24 +89,26 @@ int main()
 			}
 		}
 
+		
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			Player_1.gain_speed(0, -Player_1.acc);
+			Player_1.ver_acc = -1;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			Player_1.gain_speed(0, Player_1.acc);
+			Player_1.ver_acc = 1;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			Player_1.gain_speed(Player_1.acc, 0);
+			Player_1.hor_acc = 1;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			Player_1.gain_speed(-Player_1.acc, 0);
+			Player_1.hor_acc = -1;
 		}
 
-
+		Player_1.gain_speed();
 		Player_1.move();
 
 		screen.clear(sf::Color::Yellow);
