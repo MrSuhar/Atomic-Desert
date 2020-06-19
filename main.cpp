@@ -1,7 +1,8 @@
 #include "header.hpp"
-#include "characters.cpp"
+//#include "characters.cpp"
+#include "2d_item.cpp"
 
-#define VERSION "Atomic Desert ver_0.02 EQUIPEMENT DISPALY"
+#define VERSION "Atomic Desert ver_0.03 USING ITEMS IN EQUIPEMENT"
 
 
 int main()
@@ -23,14 +24,27 @@ int main()
 	Player_1.set_texture();
 	Player_1.set_position();
 
+	/*
 	//DEBUG, USE 50x50 pixel pictures for items
 	Square_2D painkiller(50,50,"./Textures/painkiller.jpg");
 	painkiller.set_texture();
+	*/
+
+	//CREATING ITEM OBJECT, inherited from Square_2D Class
+	Item_medicine pain_killer(10,"./Textures/painkiller.jpg");
+	Item_medicine small_poison(-10,"./Textures/poison.png");
+
 
 	//CREATING INVENTORY OBJECT as for now it only displays objects "2D_square"
 	Inventory Equipement_1;
-	for(int i=1;i<16;i++)Equipement_1.add_item(painkiller); //filling inventory with random stuff
-	
+	//FILLINg PLAYER'S INVENTORY WITH painkillers
+	Equipement_1.add_item(pain_killer); //filling inventory with random stuff
+	Equipement_1.add_item(small_poison);
+
+	//DEBUG
+		std::cout<<RES_X/5<<std::endl;
+		std::cout<<RES_Y/5<<std::endl;
+		
 
 
 	//MAIN LOOP
@@ -60,6 +74,18 @@ int main()
 					break;
 				}
 			}
+			//HANDING MOUSE CLICKS
+			if(event.type==sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{					
+					//USING ITEMS IN EQ IF IT IS OPENED
+					if(Equipement_1.get_open())
+					{						
+						Equipement_1.using_items(sf::Mouse::getPosition(),&Player_1);//Second argument decides who the item is used on
+					}
+				}
+			}
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -84,9 +110,11 @@ int main()
 
 		screen.clear(sf::Color::Yellow);
 		screen.draw(Player_1.get_shape());
-		Equipement_1.disp_eq(&screen);
+		Equipement_1.disp_eq(&screen);		
+
 		//screen.draw()
 		screen.display();
+
 
 		//CONTROLING FPS
 		sf::Time time = Clock.getElapsedTime();
