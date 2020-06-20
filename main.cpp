@@ -88,7 +88,6 @@ int main()
 				}
 			}
 		}
-
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
@@ -105,6 +104,10 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			Player_1.hor_acc = -1;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
+			Player_1.sprint = true;
 		}
 
 		Player_1.gain_speed();

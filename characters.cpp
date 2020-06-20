@@ -6,8 +6,12 @@ protected:
 	sf::CircleShape character_shape;
 	int pos_x, pos_y;
 	float vx, vy;
-	float max_spd;
-	bool if_acc; // acceleration flag
+
+	float max_spd; // current max speed
+	float max_def_spd; // max walking speed
+	float max_sprint; // max sprinting speed
+	float acc; // default acceleration
+
 	sf::Texture character_texture;
 
 	//USED FOR COUNTING HP
@@ -16,7 +20,7 @@ protected:
 public:
 	int hor_acc; // flags of horizontal and vertical acceleration
 	int ver_acc; // can be -1, 0, 1
-	float acc; // default acceleration
+	bool sprint;
 
 	//USED FOR CHAMGING HP FOR FIXED AMOUNT
 	void change_hp(int a)
@@ -52,23 +56,27 @@ public:
 	{
 		character_shape.setPosition(x,y);
 	}
-	// CALCULATING AND SETTING PLAYER POSITIOn
+	// CALCULATING AND SETTING PLAYER POSITION
 	void move() 
 	{
+		if (sprint) max_spd = max_sprint; // setting max speed for next move
+		else max_spd = max_def_spd;
+
 		if (pos_x + vx < 0 || RES_X < pos_x + vx) // halting if approaching window edge
 			vx = 0;
 		else
-			pos_x += vx;
+			pos_x += vx;	// otherwise moving
 
 		if (pos_y + vy < 0 || RES_Y < pos_y + vy)
 			vy = 0;
 		else
 			pos_y += vy;
 
-		float slow = 0.05; // percent of max speed lost when not moving
+		float slow = 0.1; // percent of max speed lost when not moving
 
+		
 
-		if (hor_acc == 0) // slowing character down if not moving
+		if (hor_acc == 0 || vx < -max_spd || max_spd < vx) // slowing character down if not accelerating or moving too fast
 		{
 			if (vx > 0)
 				vx -= max_spd * slow;
@@ -76,7 +84,7 @@ public:
 				vx += max_spd * slow;
 		}
 
-		if (ver_acc == 0)
+		if (ver_acc == 0 || vy < -max_spd || max_spd < vy)
 		{
 			if (vy > 0)
 				vy -= max_spd * slow;
@@ -84,7 +92,7 @@ public:
 				vy += max_spd * slow; 
 		}			
 
-		if_acc = false; // reseting player acceleration
+		sprint = false; // reseting player acceleration
 		ver_acc = 0;
 		hor_acc = 0;
 		character_shape.setPosition(pos_x, pos_y);
@@ -95,15 +103,11 @@ public:
 	{		
 		float acc_vect = sqrt(hor_acc * hor_acc + ver_acc * ver_acc) / sqrt(2); // acc is divided by this variable to remove higher diagonal acceleration, 0 if no acceleration
 
-		if (acc_vect == 0)
-		{
-			if_acc = false;
-			return;
-		}
+		if (acc_vect == 0)	return;
 
 		float new_vx = vx + acc / acc_vect * hor_acc; // calculating new speed
 		float new_vy = vy + acc / acc_vect * ver_acc;
-		
+
 
 		if (-max_spd < new_vx && new_vx < max_spd) // changing speed if possible
 			vx = new_vx;
@@ -128,9 +132,12 @@ public:
 		vx = 0;
 		vy = 0;
 		acc = 0.8;
+		max_def_spd = 4;
+		max_sprint = 8;
 		max_spd = 4;
 		hor_acc = 0;
 		ver_acc = 0;
+		sprint = false;
 	}
 
 	Character()
