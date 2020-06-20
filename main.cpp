@@ -90,7 +90,6 @@ int main()
 		}
 
 		
-		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			Player_1.ver_acc = -1;

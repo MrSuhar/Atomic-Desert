@@ -7,7 +7,6 @@ protected:
 	int pos_x, pos_y;
 	float vx, vy;
 	float max_spd;
-	float acc; // default acceleration
 	bool if_acc; // acceleration flag
 	sf::Texture character_texture;
 
@@ -17,6 +16,7 @@ protected:
 public:
 	int hor_acc; // flags of horizontal and vertical acceleration
 	int ver_acc; // can be -1, 0, 1
+	float acc; // default acceleration
 
 	//USED FOR CHAMGING HP FOR FIXED AMOUNT
 	void change_hp(int a)
@@ -90,9 +90,10 @@ public:
 		character_shape.setPosition(pos_x, pos_y);
 	}
 
+	// CALCULATING AND SETTING PLAYER SPEED
 	void gain_speed()
 	{		
-		float acc_vect = sqrt(hor_acc * hor_acc + ver_acc * ver_acc) / sqrt(2); // this variable is multiplied with acc to remove higher diagonal acceleration, 0 if no acceleration
+		float acc_vect = sqrt(hor_acc * hor_acc + ver_acc * ver_acc) / sqrt(2); // acc is divided by this variable to remove higher diagonal acceleration, 0 if no acceleration
 
 		if (acc_vect == 0)
 		{
@@ -100,8 +101,8 @@ public:
 			return;
 		}
 
-		float new_vx = vx + acc * acc_vect * hor_acc; // calculating new speed
-		float new_vy = vy + acc * acc_vect * ver_acc;
+		float new_vx = vx + acc / acc_vect * hor_acc; // calculating new speed
+		float new_vy = vy + acc / acc_vect * ver_acc;
 		
 
 		if (-max_spd < new_vx && new_vx < max_spd) // changing speed if possible
@@ -126,8 +127,8 @@ public:
 		pos_y=y;
 		vx = 0;
 		vy = 0;
-		acc = 1;
-		max_spd = 5;
+		acc = 0.8;
+		max_spd = 4;
 		hor_acc = 0;
 		ver_acc = 0;
 	}
