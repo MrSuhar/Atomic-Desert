@@ -1,11 +1,38 @@
 #include "header.hpp"
 //#include "2d_item.cpp"
+
+
+class Box
+{
+
+public:
+	sf::RectangleShape shape;
+	sf::FloatRect hitbox;
+
+	Box(int x_pos, int y_pos, int Width, int Height)
+	{
+		hitbox.left = x_pos;
+		hitbox.top = y_pos;
+		hitbox.width = Width;
+		hitbox.height = Height;
+
+		shape.setFillColor(sf::Color::Red);
+		shape.setPosition(x_pos, y_pos);
+		shape.setSize(sf::Vector2f(Width, Height));
+	}
+
+	Box()
+	{}
+};
+
+
 class Character
 {
 protected:
 	sf::CircleShape character_shape;
 	int pos_x, pos_y;
 	float vx, vy;
+	float radius;
 
 	float max_spd; // current max speed
 	float max_def_spd; // max walking speed
@@ -13,6 +40,7 @@ protected:
 	float acc; // default acceleration
 
 	sf::Texture character_texture;
+	sf::FloatRect hitbox;
 
 	//USED FOR COUNTING HP
 	int hp=100; //BASIC HP AMOUNT
@@ -56,21 +84,48 @@ public:
 	{
 		character_shape.setPosition(x,y);
 	}
+
+
+
+	
+
 	// CALCULATING AND SETTING PLAYER POSITION
-	void move() 
+	void move(std::vector<Box> box_list) 
 	{
+		if (vx == 0 && vy == 0) return;
+
+
 		if (sprint) max_spd = max_sprint; // setting max speed for next move
 		else max_spd = max_def_spd;
 
+
+		hitbox.left += vx;	// moving hitbox to check for collisions at new coordinates
+		hitbox.top += vy;
+		if (checkCollisions(box_list)) // if collision would occur reset hitbox and stop moving
+		{
+			hitbox.left = pos_x;
+			hitbox.top = pos_y;
+			vx = 0;
+			vy = 0;
+			ver_acc = 0;
+			hor_acc = 0;
+			return;
+		}
+		hitbox.left = pos_x; // reseting hitbox after collision check
+		hitbox.top = pos_y;
+
+
 		if (pos_x + vx < 0 || RES_X < pos_x + vx) // halting if approaching window edge
 			vx = 0;
-		else
+		else {
 			pos_x += vx;	// otherwise moving
+		}
 
 		if (pos_y + vy < 0 || RES_Y < pos_y + vy)
 			vy = 0;
-		else
+		else {
 			pos_y += vy;
+		}
 
 		float slow = 0.1; // percent of max speed lost when not moving
 
@@ -92,10 +147,13 @@ public:
 				vy += max_spd * slow; 
 		}			
 
-		sprint = false; // reseting player acceleration
+		hitbox.top = pos_y;
+		hitbox.left = pos_x;
+		sprint = false; // reseting player acceleration and hitbox
 		ver_acc = 0;
 		hor_acc = 0;
 		character_shape.setPosition(pos_x, pos_y);
+
 	}
 
 	// CALCULATING AND SETTING PLAYER SPEED
@@ -114,6 +172,14 @@ public:
 		if (-max_spd < new_vy && new_vy < max_spd)
 			vy = new_vy;
 	}
+	   	 
+	bool checkCollisions(std::vector<Box> list)
+	{
+		for (Box box : list)
+			if (hitbox.intersects(box.hitbox))
+				return true;
+		return false;
+	}
 
 	//USED IN DRAWING
 	sf::CircleShape get_shape()
@@ -121,11 +187,11 @@ public:
 		return character_shape;
 	}
 
-	//CONSTRUCTORS
-	
+	//CONSTRUCTORS	
 	Character(int x,int y,std::string filename)
 	{	
-		character_shape.setRadius(20.);	
+		radius = 20;
+		character_shape.setRadius(radius);	
 		if(load_texture(filename)!=-1) set_texture();
 		pos_x=x;
 		pos_y=y;
@@ -138,8 +204,17 @@ public:
 		hor_acc = 0;
 		ver_acc = 0;
 		sprint = false;
+
+		hitbox.left = x;
+		hitbox.top = y;
+		hitbox.width = 2*radius;
+		hitbox.height = 2*radius;
 	}
 
 	Character()
 	{}	
 };
+
+
+
+
