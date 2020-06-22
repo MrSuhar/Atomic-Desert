@@ -97,6 +97,7 @@ protected:
 	bool opened=false;
 	//CURRENT EMPTY ITEM SPACE
 	int item_x=0,item_y=0;
+	sf::Texture background_texture; 
 	
 	//USED FOR DISPLAYING in previous version	
 	//Square_2D items[4][4];	
@@ -109,7 +110,9 @@ public:
 	{			
 	backpack_background.setSize(sf::Vector2f(320,240));
 	backpack_background.setPosition(RES_X/5,RES_Y/5);
-	backpack_background.setFillColor(sf::Color::Cyan);
+	//backpack_background.setFillColor(sf::Color::Cyan);	
+	background_texture.loadFromFile("./Textures/camouflage.png",(sf::IntRect(0,0,320,240)));
+	backpack_background.setTexture(&background_texture);
 	}
 	
 	//DISPLAYING INVENTORY AND ITS CONTENTS
