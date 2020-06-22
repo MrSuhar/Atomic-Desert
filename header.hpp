@@ -6,6 +6,7 @@
 #include <time.h>
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 #define RES_X 1600
-#define RES_Y 1200
+#define RES_Y 1000
