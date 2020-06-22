@@ -117,15 +117,15 @@ public:
 
 		if (pos_x + vx < 0 || RES_X < pos_x + vx) // halting if approaching window edge
 			vx = 0;
-		else {
+		else 
 			pos_x += vx;	// otherwise moving
-		}
+		
 
 		if (pos_y + vy < 0 || RES_Y < pos_y + vy)
 			vy = 0;
-		else {
+		else 
 			pos_y += vy;
-		}
+		
 
 		float slow = 0.1; // percent of max speed lost when not moving
 
@@ -133,6 +133,9 @@ public:
 
 		if (hor_acc == 0 || vx < -max_spd || max_spd < vx) // slowing character down if not accelerating or moving too fast
 		{
+			if (abs(vx) - abs(max_spd * slow) < 0)
+				vx = 0;
+
 			if (vx > 0)
 				vx -= max_spd * slow;
 			if (vx < 0)
@@ -141,6 +144,9 @@ public:
 
 		if (ver_acc == 0 || vy < -max_spd || max_spd < vy)
 		{
+			if (abs(vy) - abs(max_spd * slow) < 0)
+				vy = 0;
+
 			if (vy > 0)
 				vy -= max_spd * slow;
 			if (vy < 0)
@@ -153,13 +159,13 @@ public:
 		ver_acc = 0;
 		hor_acc = 0;
 		character_shape.setPosition(pos_x, pos_y);
-
 	}
 
 	// CALCULATING AND SETTING PLAYER SPEED
 	void gain_speed()
 	{		
 		float acc_vect = sqrt(hor_acc * hor_acc + ver_acc * ver_acc) / sqrt(2); // acc is divided by this variable to remove higher diagonal acceleration, 0 if no acceleration
+
 
 		if (acc_vect == 0)	return;
 
@@ -169,8 +175,20 @@ public:
 
 		if (-max_spd < new_vx && new_vx < max_spd) // changing speed if possible
 			vx = new_vx;
+
+		else if (new_vx < -max_spd && -max_spd < vx) // allows to reach max speed if new speed is faster than current speed
+			vx = -max_spd;
+		else if (max_spd < new_vx && vx < max_spd)
+			vx = max_spd;
+
+
 		if (-max_spd < new_vy && new_vy < max_spd)
 			vy = new_vy;
+
+		else if (new_vy < -max_spd && -max_spd < vy)
+			vy = -max_spd;
+		else if (max_spd < new_vy && vy < max_spd)
+			vy = max_spd;
 	}
 	   	 
 	bool checkCollisions(std::vector<Box> list)
@@ -197,7 +215,7 @@ public:
 		pos_y=y;
 		vx = 0;
 		vy = 0;
-		acc = 0.8;
+		acc = 0.6;
 		max_def_spd = 4;
 		max_sprint = 8;
 		max_spd = 4;
