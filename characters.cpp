@@ -50,13 +50,16 @@ public:
 	int ver_acc; // can be -1, 0, 1
 	bool sprint;
 
-	//USED FOR CHAMGING HP FOR FIXED AMOUNT
+	//--------------HP---------------------------------------
 	void change_hp(int a)
 	{
 		hp+=a;
-		std::cout<<"Current hp is: "<<hp<<std::endl; //used for debug
-	}	
+		//std::cout<<"Current hp is: "<<hp<<std::endl; //used for debug
+	}
 
+	int get_hp(){return hp;}	
+
+	//-----------TEXTURES------------------------
 	//TEXTURE MANIPULATION METHODS
 	int load_texture(std::string filename)
 	{
@@ -84,6 +87,8 @@ public:
 	{
 		character_shape.setPosition(x,y);
 	}
+
+
 
 
 

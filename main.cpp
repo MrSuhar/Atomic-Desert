@@ -7,8 +7,6 @@
 
 int main()
 {
-
-
 	//SETTING CREATION
 	sf::ContextSettings settings;
 	settings.antialiasingLevel=2;
@@ -21,17 +19,15 @@ int main()
 
 	sf::Event event;
 
+	//CREATING BACKGROUND
+	Square_2D background(RES_X,RES_Y,"./Textures/desert.png");
+
 	//CREATING CHARACTER OBJECT
 	Character Player_1(100, 100, "./Textures/Player.png");	
 	Player_1.set_texture();
 	Player_1.set_position();
 
-	/*
-	//DEBUG, USE 50x50 pixel pictures for items
-	Square_2D painkiller(50,50,"./Textures/painkiller.jpg");
-	painkiller.set_texture();
-	*/
-
+	
 	//CREATING ITEM OBJECT, inherited from Square_2D Class
 	Item_medicine pain_killer(10,"./Textures/painkiller.jpg");
 	Item_medicine small_poison(-10,"./Textures/poison.png");
@@ -42,12 +38,14 @@ int main()
 	//FILLINg PLAYER'S INVENTORY WITH painkillers
 	Equipement_1.add_item(pain_killer); //filling inventory with random stuff
 	Equipement_1.add_item(small_poison);
+	
 
-	//DEBUG
-		std::cout<<RES_X/5<<std::endl;
-		std::cout<<RES_Y/5<<std::endl;
-		
-
+	//HP BAR
+		sf::Font font_omen;
+		font_omen.loadFromFile("./Textures/Fonts/BloodOmen.ttf");		
+		sf::Text hp_gauge("TEST",font_omen,30);
+		hp_gauge.setFillColor(sf::Color::Red);
+		hp_gauge.setPosition(0,RES_Y-70);
 
 
 	// CREATING COLLISION OBJECTS
@@ -123,13 +121,20 @@ int main()
 		Player_1.gain_speed();
 		Player_1.move(box_list);
 
+		//SETTING CURRENT HP
+		hp_gauge.setString(std::to_string(Player_1.get_hp()));
+
 		
-		screen.clear(sf::Color::Yellow);
+		screen.clear(sf::Color::Black);
+		screen.draw(background.get_shape());
 
 		for (Box box : box_list)
 			screen.draw(box.shape);
 		screen.draw(Player_1.get_shape());
-		Equipement_1.disp_eq(&screen);		
+		Equipement_1.disp_eq(&screen);
+
+		//HP_GAUGE
+		screen.draw(hp_gauge);		
 
 		//screen.draw()
 		screen.display();
