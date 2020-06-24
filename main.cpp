@@ -47,6 +47,18 @@ int main()
 		hp_gauge.setFillColor(sf::Color::Red);
 		hp_gauge.setPosition(0,RES_Y-70);
 
+	//MUSIC
+	sf::Music main_theme;
+	if(!main_theme.openFromFile("./Sounds/desert_wind.ogg")) 
+		{
+			std::cout<<"Failed to load music"<<std::endl;
+			return -14;
+		};
+
+	main_theme.play();
+	main_theme.setLoop(true);
+
+
 
 	// CREATING COLLISION OBJECTS
 	Box test_box1(500, 500, 200, 100);
@@ -95,7 +107,8 @@ int main()
 				}
 			}
 		}
-		
+
+		//HANDLING MOVEMENT		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			Player_1.ver_acc = -1;

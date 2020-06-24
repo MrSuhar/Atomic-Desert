@@ -8,3 +8,9 @@ We are aiming to make it cross platform Linux/Windows since one of us uses Linux
 ./a is a simple bash script used for compilation.
 
 ./atomic_desert is "Linux executable". 
+
+----LICENSES-----
+
+All used files are either creathed by us or published under Creative Commons license.
+
+Used Desert Wind Stereo form KasDonatov found under link: https://freesound.org/people/KasDonatov/sounds/402710/
