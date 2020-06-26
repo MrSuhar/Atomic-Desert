@@ -11,6 +11,6 @@ We are aiming to make it cross platform Linux/Windows since one of us uses Linux
 
 ----LICENSES-----
 
-All used files are either creathed by us or published under Creative Commons license.
+All used files are either created by us or published under Creative Commons license.
 
-Used Desert Wind Stereo form KasDonatov found under link: https://freesound.org/people/KasDonatov/sounds/402710/
+Used Desert Wind Stereo mady by KasDonatov found under link: https://freesound.org/people/KasDonatov/sounds/402710/
