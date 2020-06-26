@@ -46,6 +46,8 @@ public:
 		return item_shape;
 	}
 
+	//sf::Texture get_texture(){return item_texture;}
+
 	//CONSTRUCTORS	
 	Square_2D(int size_x,int size_y,std::string filename)
 	{	
@@ -89,86 +91,4 @@ public:
 	Item_medicine(){};
 };
 
-//USED FOR DISPLAING EQ AND KEEPING TRACK OF ITEMS
-class Inventory
-{
-protected:
-	sf::RectangleShape backpack_background;
-	bool opened=false;
-	//CURRENT EMPTY ITEM SPACE
-	int item_x=0,item_y=0;
-	sf::Texture background_texture; 
-	
-	//USED FOR DISPLAYING in previous version	
-	//Square_2D items[4][4];	
 
-	Item_medicine items[4][4]; //Will need to change for UNION of all items
-
-public:
-	//CONSTRUCTOR
-	Inventory()
-	{			
-	backpack_background.setSize(sf::Vector2f(320,240));
-	backpack_background.setPosition(RES_X/5,RES_Y/5);
-	//backpack_background.setFillColor(sf::Color::Cyan);	
-	background_texture.loadFromFile("./Textures/camouflage.png",(sf::IntRect(0,0,320,240)));
-	backpack_background.setTexture(&background_texture);
-	}
-	
-	//DISPLAYING INVENTORY AND ITS CONTENTS
-	void disp_eq(sf::RenderWindow *screen)
-	{	
-		if(opened)
-		{
-		screen->draw(backpack_background);
-			for(int i=0;i<4;i++)//i<item_x;i++)
-			{
-				for(int j=0;j<4;j++)
-				{
-					screen->draw(items[i][j].get_shape());
-				}				
-			} //work in progress
-		}		
-	}
-	//OPENING INVENTORY AND CLOSING INVENTIORY
-	void set_open(bool setter){opened=setter;}
-	bool get_open(){return opened;}
-		
-	//ADDING ITEM TO EQUIPEMENT work in progress	
-	void add_item(Item_medicine item)//Will need to change for UNION of all items
-	{
-		if(item_y<=3)
-		{
-			items[item_x][item_y]=item;
-			items[item_x][item_y].set_position(item_x*80+RES_X/5+15,item_y*60+RES_Y/5+5);
-			item_x++; 
-			if(item_x>=4)
-				{
-					item_x=0;
-					item_y++;
-				}	
-			//item.set_position(item_x*80+RES_X/5,item_y*60+RES_Y/5);
-		}
-	};
-
-	//CHECKING WHETHER ITEM WAS CLICKED ON
-	void using_items(sf::Vector2i mouse_position,Character *player)
-	{
-		//std::cout<<"Checking what was clicked in eq"<<std::endl;
-		//std::cout<<"Mouse x: "<<mouse_position.x<<" Mouse y: "<<mouse_position.y<<std::endl;
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{				
-				if(items[i][j].used((int) mouse_position.x,(int) mouse_position.y,player))
-					{
-						Item_medicine a;
-						items[i][j]=a;
-						return;
-					}
-			}
-		}
-	}
-	
-
-};

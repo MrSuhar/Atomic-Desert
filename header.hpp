@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <variant>
+#include <cassert>
 
 #define RES_X 1600
 #define RES_Y 1000

@@ -1,8 +1,8 @@
 #include "header.hpp"
 //#include "characters.cpp"
-#include "2d_item.cpp"
+#include "armour.cpp"
 
-#define VERSION "Atomic Desert ver_0.03 USING ITEMS IN EQUIPEMENT"
+#define VERSION "Atomic Desert ver_0.04 ARMOUR"
 
 
 int main()
@@ -31,14 +31,17 @@ int main()
 	//CREATING ITEM OBJECT, inherited from Square_2D Class
 	Item_medicine pain_killer(10,"./Textures/painkiller.jpg");
 	Item_medicine small_poison(-10,"./Textures/poison.png");
-
-
-	//CREATING INVENTORY OBJECT as for now it only displays objects "2D_square"
-	Inventory Equipement_1;
-	//FILLINg PLAYER'S INVENTORY WITH painkillers
-	Equipement_1.add_item(pain_killer); //filling inventory with random stuff
-	Equipement_1.add_item(small_poison);
+	//CREATING ARMOUR ITEM
+	Armour leather_jacket(10,1,100,"./Textures/Armours/leather_jacket.png");
 	
+	//CREATING INVENTORY OBJECT as for now it only displays objects "2D_square"
+	Inventory Player_EQ;
+	//FILLINg PLAYER'S INVENTORY WITH random stuff
+	Player_EQ.add_item(pain_killer); //filling inventory with random stuff
+	Player_EQ.add_item(small_poison);
+	Player_EQ.add_item(leather_jacket);	
+	Player_EQ.add_item(leather_jacket);
+	Player_EQ.add_item(small_poison);	
 
 	//HP BAR
 		sf::Font font_omen;
@@ -57,7 +60,6 @@ int main()
 
 	main_theme.play();
 	main_theme.setLoop(true);
-
 
 
 	// CREATING COLLISION OBJECTS
@@ -85,11 +87,11 @@ int main()
 						screen.close();
 					break;					
 					case sf::Keyboard::I: //opening and closing EQ
-						if(Equipement_1.get_open())
+						if(Player_EQ.get_open())
 						{
-							Equipement_1.set_open(false);
+							Player_EQ.set_open(false);
 						}
-						else Equipement_1.set_open(true);
+						else Player_EQ.set_open(true);
 					break;
 
 				}
@@ -100,9 +102,9 @@ int main()
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{					
 					//USING ITEMS IN EQ IF IT IS OPENED
-					if(Equipement_1.get_open())
+					if(Player_EQ.get_open())
 					{						
-						Equipement_1.using_items(sf::Mouse::getPosition(),&Player_1);//Second argument decides who the item is used on
+						Player_EQ.using_items(sf::Mouse::getPosition(),&Player_1);//Second argument decides who the item is used on
 					}
 				}
 			}
@@ -144,14 +146,13 @@ int main()
 		for (Box box : box_list)
 			screen.draw(box.shape);
 		screen.draw(Player_1.get_shape());
-		Equipement_1.disp_eq(&screen);
+		Player_EQ.disp_eq(&screen);
 
 		//HP_GAUGE
-		screen.draw(hp_gauge);		
+		screen.draw(hp_gauge);				
 
 		//screen.draw()
 		screen.display();
-
 
 		//CONTROLING FPS
 		sf::Time time = Clock.getElapsedTime();
